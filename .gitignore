@@ -1,0 +1,22 @@
+# Node dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# IDE/editor specific (optional but recommended)
+.vscode/
+.idea/
+*.swp
+
+# Optional: uploaded files if you allow file uploads
+uploads/
