@@ -10,6 +10,7 @@ const ejs = require('ejs');
 const PORT = process.env.PORT;
 const LOGINUSER = process.env.LOGINUSER;
 const PASSWORD = process.env.PASSWORD;
+const SECRET = process.env.SECRET;
 
 // setting view engine and static files
 
@@ -26,9 +27,11 @@ app.use(nocache());
 // session handling middleware
 
 app.use(session({
-    secret : "secretKey",
+    name: 'ameen.sid',
+    secret : SECRET,
     resave : false,
-    saveUninitialized : true,
+    saveUninitialized : false,
+    // cookie : { maxAge : 5000 }
 }))
 
 // rendering route
@@ -50,10 +53,10 @@ app.get('/' , (req,res)=>{
 })
 
 app.get('/login', (req,res)=>{
-    if(req.session.admin == LOGINUSER){
-        res.redirect('/')
-    }else{
+    if(!req.session.admin){
         res.render('login',{ msg : null});
+    }else{
+        res.redirect('/')
     }
 })
 
@@ -79,6 +82,7 @@ app.post("/verify" , (req,res)=>{
 
 app.post('/logout' , (req,res)=>{
     req.session.destroy();
+    res.clearCookie('ameen.sid')
     res.redirect("/");
 })
 
