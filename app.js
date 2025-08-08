@@ -29,7 +29,6 @@ app.use(session({
     secret : "secretKey",
     resave : false,
     saveUninitialized : true,
-    cookie : { maxAge : 5000 }
 }))
 
 // rendering route
