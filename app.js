@@ -23,6 +23,8 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 
+// no cache middleware
+
 app.use(nocache());
 
 // session handling middleware
@@ -35,7 +37,7 @@ app.use(session({
     // cookie : { maxAge : 5000 }
 }))
 
-// rendering route
+// rendering route - home
 
 app.get('/' , (req,res)=>{
     if(req.session.admin == LOGINUSER){
@@ -53,6 +55,8 @@ app.get('/' , (req,res)=>{
     }
 })
 
+// rendering route - login
+
 app.get('/login', (req,res)=>{
     if(!req.session.admin){
         res.render('login',{ msg : null});
@@ -61,7 +65,7 @@ app.get('/login', (req,res)=>{
     }
 })
 
-// form validating route
+// form validating route - post
 
 app.post("/verify" , (req,res)=>{
     if((req.body.username).trim() == "" || /\d/.test(req.body.username)){
@@ -87,7 +91,7 @@ app.post('/logout' , (req,res)=>{
     res.redirect("/");
 })
 
-// error handling middleware
+// error page handling middleware
 
 app.use((req,res)=>{
     res.status(404).render('error');
