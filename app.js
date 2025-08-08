@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require("express");
 const app = express();
@@ -48,7 +49,7 @@ app.get('/' , (req,res)=>{
             req.session.invalid = false;
             return res.render('login' , { msg : "Invalid Credentials"})
         }
-        res.render("login" , {msg : null});
+        res.redirect("/login");
     }
 })
 
@@ -95,3 +96,4 @@ app.use((req,res)=>{
 app.listen(PORT , ()=>{
     console.log("Server running on port " , PORT);
 })
+
