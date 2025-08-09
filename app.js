@@ -88,7 +88,7 @@ app.post("/verify" , (req,res)=>{
 app.post('/logout' , (req,res)=>{
     req.session.destroy();
     res.clearCookie('ameen.sid')
-    res.redirect("/");
+    res.redirect("/login");
 })
 
 // error page handling middleware
