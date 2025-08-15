@@ -14,6 +14,7 @@ const ROLE = process.env.ROLE;
 
 let letterSpace;
 let invalid;
+let unauth;
 
 
 app.set('view engine', 'ejs');
@@ -32,7 +33,7 @@ app.use(session({
     secret: SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie : { maxAge : 60000 }
+    cookie: { maxAge: 60000 }
 }))
 
 
@@ -49,7 +50,7 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     if (!req.session.admin) {
         console.log(req.session);
-        
+
         if (letterSpace) {
             letterSpace = false;
             return res.render("login", { msg: "User name must be letter" })
@@ -58,12 +59,16 @@ app.get('/login', (req, res) => {
             invalid = false;
             return res.render('login', { msg: "Invalid Credentials" })
         }
-        if (req.session.unauth) {
-            req.session.unauth = false;
+        if (unauth) {
+            unauth = false;
             return res.render('login', { msg: "Unauthorized" });
         }
         res.render('login', { msg: null })
     } else {
+        if (unauth) {
+            unauth = false;
+            return res.render('login', { msg: "Unauthorized" });
+        }
         res.redirect('/');
     }
 
@@ -78,8 +83,8 @@ app.post("/verify", (req, res) => {
 
     if (req.body.username === LOGINUSER && req.body.password === PASSWORD) {
         req.session.admin = LOGINUSER;
-        req.session.role = "admin";
-        req.session.unauth = false;
+        req.session.role = ROLE;
+        unauth = false;
         return res.redirect('/')
     } else {
         invalid = true;
