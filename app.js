@@ -33,13 +33,12 @@ app.use(session({
     secret: SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 }
+    cookie: { maxAge: 600 }
 }))
 
 
 app.get('/', (req, res) => {
     if (req.session.admin && req.session.role == ROLE) {
-        console.log(req.session);
         res.render("home");
     } else {
         res.redirect("/login");
@@ -49,8 +48,6 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
     if (!req.session.admin) {
-        console.log(req.session);
-
         if (letterSpace) {
             letterSpace = false;
             return res.render("login", { msg: "User name must be letter" })
